@@ -11,5 +11,5 @@ Scripts for simple automation tasks.
         2. A text keyword file with line separated keywords (without spaces).
     Usage:
       ```sh
-      python3 /path/to/search/ keyword_file.txt
+      $ python3 /path/to/search/ keyword_file.txt
       ```
