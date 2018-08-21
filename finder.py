@@ -26,8 +26,7 @@ try:
 	#Creating logging file
 
 	log = open(
-		sys.argv[1]
-		+ '/finder_log_'
+		'/finder_log_'
 		+ x
 		+ ".txt", 'w', encoding='utf-8')
 
