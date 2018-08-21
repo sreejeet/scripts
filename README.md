@@ -1,2 +1,2 @@
 # scripts
-Scripts for simple automation tasks
+Scripts for simple automation tasks.
