@@ -10,4 +10,6 @@ Scripts for simple automation tasks.
         1. Path to directory to search.
         2. A text keyword file with line separated keywords (without spaces).
     Usage:
+      ```sh
       python3 /path/to/search/ keyword_file.txt
+      ```
