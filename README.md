@@ -21,7 +21,7 @@ follow who dont follow you back and how many
 followers  you dont follow. <b>It is very primitive.
 You have to manually paste followers (followers_raw.txt)
 and following (following_raw.txt)
-lists in a file from the browser.<b>
+lists in a file from the browser.</b>
 Currently it only supports utf-8 compatible files.
 
 Usage:
