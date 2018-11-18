@@ -26,7 +26,7 @@ try:
 	#Creating logging file
 
 	log = open(
-		'/finder_log_'
+		'./finder_log_'
 		+ x
 		+ ".txt", 'w', encoding='utf-8')
 
@@ -42,7 +42,7 @@ for key in searchList:
 	keyDict.update( {key:0} )
 	log.write("\n\t" + key)
 
-log.write("\n]\nBegining search...")
+log.write("\n]\nBegining search...\n")
 
 fileCounuter = 0
 
@@ -90,7 +90,7 @@ for (filePath, b, fileList) in os.walk(sys.argv[1]):
 						print("[Recording error] " + str(err) + " for " + key)
 						log.write("\nRecording error " + str(err) + " for " + key)
 
-log.write("\Ending search...\nFinal tally:")
+log.write("\nEnding search...\nFinal tally:")
 
 log.write("\n" + str(fileCounuter).zfill(5) + " files searched.")
 print("\n-------Statistics-------")
