@@ -26,5 +26,5 @@ Currently it only supports utf-8 compatible files.
 
 Usage:
 ```sh
-$ python3 python3 .\instagramRelationParser.py username_for_log_file
+$ python3 .\instagramRelationParser.py username_for_log_file
 ```
