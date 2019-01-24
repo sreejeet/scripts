@@ -31,7 +31,7 @@ except IndexError as e:
 try:
     step_liked = int(sys.argv[2])
 except IndexError as e:
-    step_liked = 50
+    step_liked = 5
 try:
     max_retries = int(sys.argv[3])
 except IndexError as e:
