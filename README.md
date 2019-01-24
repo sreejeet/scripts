@@ -29,7 +29,7 @@ Usage:
 $ python3 .\instagramRelationParser.py username_for_log_file
 ```
 
-# 2. selenium_1.py (python 3.7.0)
+# 3. selenium_1.py (python 3.7.0)
 Description:
 A selenium script to automate liking posts on your instagram feed.
 
