@@ -1,5 +1,5 @@
 '''
-A basic selenium script to automateliking posts on your instagram feed
+A basic selenium script to automate liking posts on your instagram feed
 It will like all posts, there is no filter in place; you have been warned.
 I created this script as part of my selenium learning process and will not
 be held responsible for any misuse of this code.
@@ -12,7 +12,6 @@ import sys
 import selenium
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver import ActionChains
 
 
 # Time format for output log
