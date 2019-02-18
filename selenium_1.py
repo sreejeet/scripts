@@ -1,5 +1,5 @@
 '''
-A basic selenium script to automate liking posts on your instagram feed
+A basic selenium script to automateliking posts on your instagram feed
 It will like all posts, there is no filter in place; you have been warned.
 I created this script as part of my selenium learning process and will not
 be held responsible for any misuse of this code.
@@ -18,6 +18,7 @@ from selenium.webdriver.common.keys import Keys
 def t():
     return time.strftime('[%A %H:%M:%S] ')
 
+
 # User setup
 username = 'username'
 password = 'password'
@@ -32,7 +33,7 @@ liked = 0
 try:
     to_like = int(sys.argv[1])
 except IndexError as e:
-    to_like = 20
+    to_like = 1000
 try:
     step_liked = int(sys.argv[2])
 except IndexError as e:
@@ -75,7 +76,7 @@ except Exception as e:
     print('Waiting for manual log in.')
     input('Enter to continue...')
 finally:
-    time.sleep(2)
+    time.sleep(1)
 
 try:
     # Turn on notifications? No
@@ -90,80 +91,85 @@ print(t() + 'Going to like %d posts' % (to_like))
 print(t() + 'Will notify at every %d likes' % (step_liked))
 
 tmp = step_liked
-delay = 5 # delay for each like in seconds
+delay = 1 # delay for each like in seconds
 scrolled = 0
 refreshed = 0
+height = 0
 btn = None
 
 try:
-    while(liked < to_like):
-        if errs > max_errors:
-            # Stop if too many errors
-            print(t() + 'Too many errors!!')
+    while(True):
+        if liked >= to_like:
+            print(t() + 'Target reached.')
             break
 
-        try:
-            # Avoid that button on the top bar by only selecting span elements
-            # with aria-label == 'like'
-            like_list = driver.find_elements_by_class_name(\
-                'glyphsSpriteHeart__outline__24__grey_9.u-__7')
-            like_list = [x for x in like_list\
-                if x.get_attribute('aria-label') == 'Like']
+        if errs > max_errors:
+            print(t() + 'Too many errors!')
+            break
 
-            if len(like_list) < 1:
-                # No posts to like, scrolling ahead
-                print('Scrolled down %d times without anything to like.' % scrolled)
-                driver.execute_script(\
-                    "window.scrollTo(0, document.body.scrollHeight);")
-                scrolled += 1
-                time.sleep(3)
-                height = int(\
-                    driver.execute_script('return document.body.scrollHeight'))
-            
-                if scrolled > 20 or height > 1000000:
-                    # Scrolled far but still no posts to like, refresh page
-                    if refreshed > 5:
-                        print(t() + 'Nothing to like at the moment.')
-                        break
-                    print('Refreshing page at height', height)
-                    driver.refresh()
-                    refreshed += 1 
-                    scrolled = 0
-                    time.sleep(3)
+        if refreshed > 5:
+            print(t() + 'Refreshed too many times. Feed exhausted!')
+            break
 
-            # Reset scrolled because new posts found
+        height = int(\
+            driver.execute_script('return document.body.scrollHeight'))
+
+        if height > 1100000 or scrolled >= 600:
+            # Scrolled too far
+            print(t() + 'Scrolled %d times without anything to like.' % scrolled)
+            print(t() + 'Refreshing page in 10 minutes at height', height)
+            time.sleep(600)
+            driver.refresh()
+            refreshed += 1
+            height = 0
             scrolled = 0
-            for btn in like_list:
-                btn.click()
-                liked += 1
-                # Like notification
-                if liked >= step_liked:
-                    print(t() + 'liked', liked)
-                    step_liked += tmp
-                time.sleep(delay)
+            time.sleep(3)
+            continue
+        
+        try:
+            like_btn = driver.find_element_by_xpath('//section/span/button/span[@aria-label="Like"]')
+            like_btn.click()
+            liked += 1
+            scrolled = 0 # Reset scrolled because new posts found
+            # if liked >= step_liked:
+            #     print(t() + 'Liked', liked)
+            #     step_liked += tmp
+            print('X', end='')
+            time.sleep(delay)
+        except selenium.common.exceptions.NoSuchElementException:
+            # No posts to like, scrolling ahead
+            # driver.execute_script(\
+            #     "window.scrollTo(0, document.body.scrollHeight);")
+            driver.execute_script("window.scrollBy(0,4000);")
+            print('_', end='')
+            scrolled += 1
+            continue
+
 
         except selenium.common.exceptions.StaleElementReferenceException as e:
-            # print('Stale element', like_list.index(btn))
-            # print(e)
-            pass
-        
-        except Exception as e:
-            print(t() + 'Unexpected exception')
+            print('Stale element', like_btn)
             print(e)
+            pass
+
+
+        except Exception as e:
+            print(t() + 'Unexpected exception: ' + str(e))
             errs += 1
             continue
 
+
 except KeyboardInterrupt:
+    print('')
     print(t() + 'Ctrl-C was pressed...')
 
 except Exception as e:
-    print(t() + str(e))
+    print('')
+    print(t() + 'Unexpected exception: ' + str(e))
 
-
-print(t() + '\nDriver stopped')
-print('Target likes:'.ljust(14), to_like)
-print('Actual likes:'.ljust(14), liked)
-print('Refreshes:'.ljust(14), refreshed)
-print('Errors:'.ljust(14), errs)
+print('')
+print(t() + 'Driver stopped')
+print('Target likes:'.ljust(13), to_like)
+print('Actual likes:'.ljust(13), liked)
+print('Errors:'.ljust(13), errs)
 
 driver.quit() # Manually close browser if .quit() doesn't work
