@@ -134,14 +134,14 @@ try:
             # if liked >= step_liked:
             #     print(t() + 'Liked', liked)
             #     step_liked += tmp
-            print('X', end='')
+            # print('X', end='')
             time.sleep(delay)
         except selenium.common.exceptions.NoSuchElementException:
             # No posts to like, scrolling ahead
             # driver.execute_script(\
             #     "window.scrollTo(0, document.body.scrollHeight);")
             driver.execute_script("window.scrollBy(0,4000);")
-            print('_', end='')
+            # print('_', end='')
             scrolled += 1
             continue
 
