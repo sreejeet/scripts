@@ -12,6 +12,7 @@ import sys
 import selenium
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.firefox.options import Options
 
 
 # Time format for output log
@@ -26,7 +27,10 @@ password = 'password'
 
 # driver setup
 print(t() + 'Setting up driver...')
-driver = webdriver.Firefox()
+options = Options()
+options.headless = True
+driver = webdriver.Firefox(options=options, executable_path=r'geckodriver')
+# driver = webdriver.Firefox()
 driver.implicitly_wait(5)
 errs = 0
 liked = 0
