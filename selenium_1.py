@@ -3,6 +3,9 @@ A basic selenium script to automateliking posts on your instagram feed
 It will like all posts, there is no filter in place; you have been warned.
 I created this script as part of my selenium learning process and will not
 be held responsible for any misuse of this code.
+
+Uncomment the lines marked "details" to view an experimental graphical
+representaion of the script progress.
 Author: V S Sreejeet
 '''
 
@@ -80,7 +83,7 @@ except Exception as e:
     print('Waiting for manual log in.')
     input('Enter to continue...')
 finally:
-    time.sleep(1)
+    time.sleep(2)
 
 try:
     # Turn on notifications? No
@@ -120,9 +123,11 @@ try:
 
         if height > 1100000 or scrolled >= 600:
             # Scrolled too far
+            #details# print()
             print(t() + 'Scrolled %d times without anything to like.' % scrolled)
-            print(t() + 'Refreshing page in 10 minutes at height', height)
+            print(t() + 'Refreshing page in 10 minutes at height %s...' % (height), end="")
             time.sleep(600)
+            print('Done')
             driver.refresh()
             refreshed += 1
             height = 0
@@ -138,14 +143,14 @@ try:
             # if liked >= step_liked:
             #     print(t() + 'Liked', liked)
             #     step_liked += tmp
-            # print('X', end='')
+            #details# print('X', end='')
             time.sleep(delay)
         except selenium.common.exceptions.NoSuchElementException:
             # No posts to like, scrolling ahead
             # driver.execute_script(\
             #     "window.scrollTo(0, document.body.scrollHeight);")
             driver.execute_script("window.scrollBy(0,4000);")
-            # print('_', end='')
+            #details# print('_', end='')
             scrolled += 1
             continue
 
@@ -169,6 +174,7 @@ except KeyboardInterrupt:
 except Exception as e:
     print('')
     print(t() + 'Unexpected exception: ' + str(e))
+
 
 print('')
 print(t() + 'Driver stopped')
